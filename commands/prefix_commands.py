@@ -6,7 +6,7 @@ class prefix_commands(commands.Cog):
         self.bot = bot
 
     @commands.command(aliases=["yasakla", "uçur"])
-    @commands.has_permissions(ban_members=True)
+    @discord.app_commands.checks.has_permissions(ban_members=True)
     async def ban(self, ctx : commands.Context, user : discord.Member, *reasion):
         reasion = " ".join(reasion)
 
@@ -29,7 +29,7 @@ class prefix_commands(commands.Cog):
             )
 
     @commands.command(aliases=["at", "fırlat"])
-    @commands.has_permissions(kick_members=True)
+    @discord.app_commands.checks.has_permissions(kick_members=True)
     async def kick(self, ctx : commands.Context, user : discord.Member, *reason):
         reason = " ".join(reason)
 
