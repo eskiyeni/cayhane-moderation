@@ -3,8 +3,8 @@ A Discord bot for Çayhane with discord.py
 
 ### REQUIREMENTS:
 Python3.8+   
-discord   
-PyNaCl   
+discord
+PyNaCl (optional)
 (You can use "pip install -r requirements.txt" for install)
 
 ### USAGE:

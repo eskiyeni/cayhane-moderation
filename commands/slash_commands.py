@@ -9,7 +9,7 @@ class slash_commands(commands.Cog):
         name="ban",
         description="Kullanıcıyı sunucudan yasaklar."
     )
-    @commands.has_permissions(ban_members=True)
+    @discord.app_commands.check(lambda i: i.user.guild_permissions.ban_members) 
     async def ban(self, interaction: discord.Interaction, user: discord.Member, reason: str):
         await interaction.response.defer()
 
@@ -43,7 +43,7 @@ class slash_commands(commands.Cog):
         name="kick",
         description="Kullanıcıyı sunucudan atar."
     )
-    @commands.has_permissions(kick_members=True)
+    @discord.app_commands.check(lambda i: i.user.guild_permissions.kick_members) 
     async def kick(self, interaction: discord.Interaction, user: discord.Member, reason: str):
         await interaction.response.defer()
 
@@ -69,6 +69,53 @@ class slash_commands(commands.Cog):
                 embed=discord.Embed(
                     title="HATA!",
                     description="Bir hata oluştu, işlem gerçekleştirilemedi!",
+                    color=0xFF0000
+                )
+            )
+
+    @discord.app_commands.command(
+        name="info",
+        description="Bot hakkında bilgi verir."
+    )
+    async def info(self, interaction: discord.Interaction):
+        await interaction.response.defer()
+
+        await interaction.followup.send(
+            embed=discord.Embed(
+                title="BOT HAKKINDA BİLGİ",
+                description=f"""
+Prefix: {self.bot.config["prefix"]}
+Uptime: {self.bot.return_uptime()}
+Kaynak kodları: {self.bot.config["github_link"]}
+"""             ,
+                color=0xf6f478
+            ).set_footer(text=self.bot.user.name)
+        )
+
+    @discord.app_commands.command(
+        name="join_channel",
+        description="Botu bir sesli kanala bağlar."
+    )
+    @discord.app_commands.check(lambda i: i.user.guild_permissions.manage_channels)  
+
+    async def join_channel(self, interaction: discord.Interaction, channel: discord.VoiceChannel = None):
+        await interaction.response.defer()
+        channel = channel or interaction.user.voice.channel
+
+        try:
+            await channel.connect()
+            await interaction.followup.send(
+                embed=discord.Embed(
+                    title="KANALA BAĞLANILDI!",
+                    description=f"{channel.name} kanalına başarıyla bağlanıldı!",
+                    color=0x00FF00
+                )
+            )
+        except discord.Forbidden:
+            await interaction.followup.send(
+                embed=discord.Embed(
+                    title="HATA!",
+                    description="Kanala bağlanmak için yetkim yok!",
                     color=0xFF0000
                 )
             )

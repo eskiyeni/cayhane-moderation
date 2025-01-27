@@ -6,7 +6,7 @@ class prefix_commands(commands.Cog):
         self.bot = bot
 
     @commands.command(aliases=["yasakla", "uçur"])
-    @discord.app_commands.checks.has_permissions(ban_members=True)
+    @commands.has_permissions(ban_members=True)
     async def ban(self, ctx : commands.Context, user : discord.Member, *reasion):
         reasion = " ".join(reasion)
 
@@ -29,7 +29,7 @@ class prefix_commands(commands.Cog):
             )
 
     @commands.command(aliases=["at", "fırlat"])
-    @discord.app_commands.checks.has_permissions(kick_members=True)
+    @commands.has_permissions(kick_members=True)
     async def kick(self, ctx : commands.Context, user : discord.Member, *reason):
         reason = " ".join(reason)
 
@@ -47,6 +47,42 @@ class prefix_commands(commands.Cog):
                 embed=discord.Embed(
                     title="HATA!",
                     description=f"{user.mention} kullanıcısını atmak için yetkim yok!",
+                    color=0xFF0000
+                )
+            )
+
+    @commands.command()
+    async def info(self, ctx : commands.Context):
+        await ctx.send(
+            embed=discord.Embed(
+                title="BOT HAKKINDA BİLGİ",
+                description=f"""
+Prefix: {self.bot.config["prefix"]}
+Uptime: {self.bot.return_uptime()}
+Kaynak kodları: {self.bot.config["github_link"]}
+"""             ,
+                color=0xf6f478
+            ).set_footer(text=self.bot.user.name)
+        )
+
+    @commands.command()
+    async def join_channel(self, ctx : commands.Context, channel : discord.VoiceChannel = None):
+        channel = channel or ctx.author.voice.channel
+
+        try:
+            await channel.connect()
+            await ctx.send(
+                embed=discord.Embed(
+                    title="KANALA BAĞLANILDI!",
+                    description=f"{channel.name} kanalına bağlanıldı!",
+                    color=0x00FF00
+                )
+            )
+        except discord.Forbidden:
+            await ctx.send(
+                embed=discord.Embed(
+                    title="HATA!",
+                    description="Kanala bağlanmak için yetkim yok!",
                     color=0xFF0000
                 )
             )

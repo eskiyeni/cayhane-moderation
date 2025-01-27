@@ -26,6 +26,8 @@ def return_uptime() -> str:
 config = json_load("config.json")
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix=config["prefix"], intents=intents, help_command=None)
+bot.return_uptime = return_uptime
+bot.config = config
 
 async def load_extensions():
     for file in os.listdir(
@@ -39,15 +41,7 @@ async def load_extensions():
 @bot.event
 async def on_ready():
     await load_extensions()
-    channel = config.get("channel")
-    if channel:
-        channel = await bot.fetch_channel(channel)
-        await channel.connect()
-        print(f"{channel.name} kanalına bağlanıldı!")
-
     await bot.tree.sync()
     print(f"{bot.user.name} aktif!")
-
-#TODO add info command
 
 bot.run(config["token"])
