@@ -1,14 +1,11 @@
-# cayhane-moderation
-A Discord bot for Çayhane with discord.py
+# Moderasyon Botu
 
-### REQUIREMENTS:
-Python3.8+   
-discord
-PyNaCl (optional)   
-(You can use "pip install -r requirements.txt" for install)
+# Discord sunucunuz için discord.py ile yapılmış bir moderasyon botu.
 
-### USAGE:
-Just change the config.json
+### gereksinimler
+- Python 3.8 veya üstü
+- discord.py
+- PyNaCl (opsiyonel)
+- Gereksinimler `pip install -r requirements.txt` komutu ile kurulabilir.
 
-### IF YOU NEED HELP:
-Discord: eskiyeniahmet
+Herhangibi bir sorunda Discord üzerinden eskiyeniahmet ile iletişime geçebilir veya Issues sayfası açabilirsiniz.
